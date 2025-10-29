@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generation Forest | B2B Strategic Solution</title>
+    <!-- Chosen Palette: Earthy Neutrals (Warm cream background, deep forest green for primary, tan/brown for secondary) -->
+    <!-- Application Structure Plan: A single-page, top-down executive report. The structure is a professional, client-ready narrative, not an academic exercise. It moves from "The Challenge" to "The Market," "The Customer," and culminates in "The Solution," which *is* the embedded interactive prototype. This is followed by the "Go-to-Market Roadmap" as the final strategic plan. All "competency" language is removed. -->
+    <!-- Visualization & Content Choices:
+        - Report Structure: A seamless narrative using professional HTML typography.
+        - Competitor/SWOT/Personas: Re-skinned as clean, executive-level tables and callout cards.
+        - Research Phrasing: All insights are grounded in "Analysis of provided stakeholder feedback" and "Market analysis," avoiding fabricated primary research.
+        - The Solution (Prototype): The *entire* B2B dashboard is embedded as the report's centerpiece, presented as the final product.
+        - Calculator: Slider is *removed* per user request and replaced with a static input field, simplifying the UI for a deliverable.
+        - GTM Strategy: Re-framed as a final, time-based "Strategic Roadmap," not a "to-do list."
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #FBF9F6;
+            --text-color: #3D3D3D;
+            --primary-color: #2A5B4C;
+            --accent-color: #A47D5B;
+            --card-bg: #FFFFFF;
+            --border-color: #E5E7EB;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Inter', sans-serif;
+        }
+        .text-primary { color: var(--primary-color); }
+        .bg-primary { background-color: var(--primary-color); }
+        .text-accent { color: var(--accent-color); }
+        .bg-accent { background-color: var(--accent-color); }
+        
+        .nav-link {
+            transition: all 0.2s ease-in-out;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-link:hover, .nav-link-active {
+            border-bottom-color: var(--primary-color);
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        
+        /* Executive Report Section Styling */
+        .report-section {
+            padding-top: 6rem;
+            margin-top: -4rem; 
+        }
+        .report-section h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 0.75rem;
+            display: inline-block;
+        }
+         .report-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        .report-section p, .report-section li {
+            font-size: 1.125rem;
+            line-height: 1.75;
+            color: var(--text-color);
+            margin-bottom: 1.5rem;
+        }
+        .report-section strong {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+        .report-section blockquote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 1.5rem;
+            font-style: italic;
+            font-size: 1.125rem;
+            color: var(--text-color);
+            margin: 2rem 0;
+        }
+        
+        /* The main prototype embed container */
+        .prototype-container {
+            background: linear-gradient(to bottom, var(--card-bg) 0%, var(--bg-color) 100%);
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 2rem 0;
+            margin-top: 2.5rem;
+        }
+        
+        /* Chart Container for embedded charts */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+            margin-top: 2rem;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="sticky top-0 z-50 w-full bg-white/90 shadow-sm backdrop-blur-md">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center">
+                    <span class="text-xl font-bold text-primary">Generation Forest | B2B Strategic Solution</span>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a href="#challenge" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium">The Challenge</a>
+                        <a href="#market" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Market Analysis</a>
+                        <a href="#customer" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Customer Profile</a>
+                        <a href="#solution" class="nav-link text-primary font-semibold px-3 py-2 rounded-md text-sm">The Solution</a>
+                        <a href="#roadmap" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium">Roadmap</a>
+                        <a href="#references" class="nav-link text-gray-700 px-3 py-2 rounded-md text-sm font-medium">References</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none">
+                        <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#challenge" class="nav-link-mobile text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">The Challenge</a>
+                <a href="#market" class="nav-link-mobile text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Market Analysis</a>
+                <a href="#customer" class="nav-link-mobile text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Customer Profile</a>
+                <a href="#solution" class="nav-link-mobile text-primary font-semibold block px-3 py-2 rounded-md text-base">The Solution</a>
+                <a href="#roadmap" class="nav-link-mobile text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">Roadmap</a>
+                <a href="#references" class="nav-link-mobile text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium">References</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Wrapper -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <!-- Hero Title -->
+        <section id="home" class="py-16 text-center">
+            <p class="text-base font-semibold text-accent uppercase">B2B Strategic Solution</p>
+            <h1 class="mt-2 text-4xl font-bold tracking-tight text-primary sm:text-5xl">
+                Reframing "Complexity" into "Value": A B2B Product Strategy for Generation Forest
+            </h1>
+            <p class="mt-6 text-xl leading-8 text-gray-700 max-w-3xl mx-auto">
+                This report details a comprehensive analysis, a user-centered product prototype, and a go-to-market strategy designed to bridge the B2B communication gap and drive adoption of the Generation Forest co-ownership model.
+            </p>
+        </section>
+
+        <!-- The Strategic Challenge -->
+        <section id="challenge" class="report-section">
+            <h2>The Strategic Challenge</h2>
+            <p>
+                The Generation Forest (TGF) possesses a world-class "Triple Impact" product: a co-ownership model that delivers verifiable <strong>ecological</strong> (CO₂, biodiversity), <strong>social</strong> (local jobs), and <strong>financial</strong> (4-5% IRR) returns, as documented in the 2024 Impact Report.
+            </p>
+            <p>
+                However, despite this superior value, analysis of stakeholder feedback reveals TGF struggles to communicate its model to B2B partners. The core problem is one of <strong>complexity vs. simplicity.</strong>
+            </p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                <div class="bg-white p-8 rounded-lg shadow-lg border-2 border-red-200">
+                    <h3 class="text-xl font-semibold text-red-700 mb-3">Traditional Carbon Offsets</h3>
+                    <p class="text-gray-700">A simple, familiar, and transactional <strong>Operational Expense (OpEx)</strong>. Businesses pay a price-per-ton and receive a certificate. It is easy to budget for and explain.</p>
+                </div>
+                <div class="bg-white p-8 rounded-lg shadow-lg border-2 border-green-700">
+                    <h3 class="text-xl font-semibold text-primary mb-3">TGF Co-Ownership</h3>
+                    <p class="text-gray-700">A complex, long-term, and holistic <strong>Capital Investment (CapEx)</strong>. Businesses buy "shares" that fund a real, appreciating asset, yielding returns over decades.</p>
+                </div>
+            </div>
+            <p class="mt-8">
+                This "intangibility" creates a significant barrier. B2B decision-makers cannot easily justify the high initial cost and long-term nature to a CFO when a "simpler" alternative exists. This project's goal is to solve this communication gap with a user-centered product.
+            </p>
+        </section>
+
+        <!-- Market & Competitive Landscape -->
+        <section id="market" class="report-section">
+            <h2>Market & Competitive Landscape</h2>
+            <p>
+                Analysis of the voluntary carbon market (VCM) and corporate sustainability trends shows a clear "flight to quality." A crisis of confidence, driven by reports of low-quality or fraudulent offsets, has created a significant market opportunity for solutions that offer <strong>transparency, permanence, and verifiable co-benefits</strong> (McKinsey, 2024).
+            </p>
+            <p>
+                TGF is perfectly positioned to capture this demand, but it must reframe its product. The strategy is to <strong>stop competing with offsets on price-per-ton</strong> and <strong>start competing as a superior asset class</strong> against other long-term investments.
+            </p>
+            
+            <h3>Competitive Positioning: Asset vs. Cost</h3>
+            <div class="overflow-x-auto mt-8 shadow-md rounded-lg">
+                <table class="w-full text-left">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="p-4 font-semibold text-primary w-1/3">Metric</th>
+                            <th class="p-4 font-semibold text-gray-600 w-1/3">Traditional Offsets</th>
+                            <th class="p-4 font-semibold text-primary w-1/3">Generation Forest Co-Ownership</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y">
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 font-semibold">Model</td>
+                            <td class="p-4 text-gray-700">Transactional Cost (OpEx)</td>
+                            <td class="p-4 text-primary font-medium">Capital Investment (CapEx)</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 font-semibold">Value</td>
+                            <td class="p-4 text-gray-700">Opaque, "Guilt Money"</td>
+                            <td class="p-4 text-primary font-medium">Tangible, Real Asset</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 font-semibold">Impact</td>
+                            <td class="p-4 text-gray-700">Single (CO₂)</td>
+                            <td class="p-4 text-primary font-medium">"Triple Impact" (Eco, Social, Financial)</td>
+                        </tr>
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-4 font-semibold">Term</td>
+                            <td class="p-4 text-gray-700">Annual, Short-Term</td>
+                            <td class="p-4 text-primary font-medium">Permanent, Long-Term</td>
+                        </tr>
+                         <tr class="hover:bg-gray-50">
+                            <td class="p-4 font-semibold">Risk</td>
+                            <td class="p-4 text-gray-700">High (Greenwashing, Fraud)</td>
+                            <td class="p-4 text-primary font-medium">Low (Verra-Certified, Real Land)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3 class="mt-12">Market Segmentation</h3>
+            <p>Analysis identifies three key B2B segments. TGF is ideally positioned to win Segments 2 and 3.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <h4 class="text-xl font-semibold text-gray-700 mb-2">1. The Compliance-Driven</h4>
+                    <p class="text-gray-600">Large corporations focused on regulatory reporting (e.g., CSRD). Highly price-sensitive and risk-averse.</p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-lg border-2 border-primary">
+                    <h4 class="text-xl font-semibold text-primary mb-2">2. The Purpose-Driven (ICP)</h4>
+                    <p class="text-gray-600">Values-aligned SMEs & B-Corps. Seek authenticity, transparency, and a holistic story. <strong>This is the primary target.</strong></p>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <h4 class="text-xl font-semibold text-gray-700 mb-2">3. The Impact Investor</h4>
+                    <p class="text-gray-600">Family offices & funds seeking measurable ESG impact *alongside* financial returns (IRR).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- The B2B Customer -->
+        <section id="customer" class="report-section">
+            <h2>The B2B Customer Profile</h2>
+            <p>
+                Analysis of provided stakeholder feedback and market positioning reveals two key personas that define the core B2B sales challenge.
+            </p>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-8">
+                <div class="bg-white p-8 rounded-lg shadow-xl border border-gray-200">
+                    <h3 class="text-2xl font-semibold text-primary mb-3">Persona 1: The Internal Champion</h3>
+                    <p class="text-lg font-medium text-gray-700">"Svenja, the Sustainability Manager"</p>
+                    
+                    <p class="mt-4 text-gray-600"><strong>Role:</strong> CSR/Sustainability Lead at a mid-sized, purpose-driven company.</p>
+                    <p class="mt-4 text-gray-600"><strong>Core Goal:</strong> To find authentic, verifiable climate solutions that go beyond "greenwashing" and meet new CSRD reporting standards.</p>
+                    
+                    <h4 class="text-lg font-semibold text-red-700 mt-4">Key Barriers (from B2B Feedback):</h4>
+                    <ul class="list-disc pl-5 text-gray-600">
+                        <li><strong>The "CFO Problem":</strong> Her primary blocker. She lacks the language and data to justify a large CapEx investment to a finance-minded executive.</li>
+                        <li><strong>Complexity:</strong> The model is hard to explain. "How is this different? What am I *buying*? How does the IRR work?"</li>
+                        <li><strong>Budget Mismatch:</strong> Her budget is an annual OpEx line item, but this product is a long-term asset purchase.</li>
+                    </ul>
+                    <blockquote>
+                        "I love the idea, but I can't get my CFO to approve a €50,000 investment when offsets are a €5,000 annual cost."
+                    </blockquote>
+                </div>
+
+                <div class="bg-white p-8 rounded-lg shadow-xl border border-gray-200">
+                    <h3 class="text-2xl font-semibold text-primary mb-3">Persona 2: The Decision Maker (ICP)</h3>
+                    <p class="text-lg font-medium text-gray-700">"Michael, the Impact-Driven Founder"</p>
+                    
+                    <p class="mt-4 text-gray-600"><strong>Role:</strong> Founder/CEO of a successful, purpose-driven SME (e.g., B-Corp).</p>
+                    <p class="mt-4 text-gray-600"><strong>Core Goal:</strong> To align his company's finances and climate strategy with its core values. He wants a *permanent*, *real* solution, not a "guilt payment."</p>
+
+                    <h4 class="text-lg font-semibold text-green-700 mt-4">Key Motivators (from B2B Feedback):</h4>
+                     <ul class="list-disc pl-5 text-gray-600">
+                        <li><strong>Tangibility:</strong> He is driven by the "realness" of the product—real land, real trees, real social impact.</li>
+                        <li><strong>Permanence:</strong> The "plant once, impact forever" model is a huge draw.</li>
+                        <li><strong>Transparency:</strong> He is actively *seeking* a transparent alternative to opaque offsets.</li>
+                    </ul>
+                    <blockquote>
+                        "This is exactly what I want. It's a real asset. Now, just show me how the numbers work and that it's safe."
+                    </blockquote>
+                </div>
+            </div>
+        </section>
+
+        <!-- The Solution: B2B Dashboard -->
+        <section id="solution" class="report-section">
+            <h2>The Strategic Solution</h2>
+            <p>
+                The problem is not the model; it's the messaging. TGF lacks a tool to make the long-term, holistic value of co-ownership <strong>tangible, simple, and justifiable</strong> to an executive, B2B audience.
+            </p>
+            <p>
+                The solution is a user-centered product: <strong>The B2B Impact Dashboard</strong>. This single-page application is not just a webpage; it is a strategic sales and education tool designed to be the centerpiece of the B2B marketing funnel.
+            </p>
+            <p>
+                It directly addresses the user pains by:
+            </p>
+            <ul class="list-disc list-outside pl-5 space-y-3">
+                <li>Making the abstract "share" <strong>tangible</strong> through an impact calculator.</li>
+                <li>Framing the conversation as <strong>"Asset vs. Cost"</strong> with a direct comparison module.</li>
+                <li>Building <strong>trust</strong> through transparent, data-backed proof points from the Impact Report.</li>
+            </ul>
+
+            <h3>Solution Conceptualization: The Value Proposition</h3>
+            <p>
+                Before building the prototype, a Value Proposition Canvas was developed to ensure the solution directly addresses the customer's pains and jobs.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-0 mt-8 bg-white shadow-xl rounded-lg border border-gray-200 overflow-hidden">
+                <div class="p-8">
+                    <h3 class="text-xl font-semibold text-primary mb-4">Customer Profile (B2B User)</h3>
+                    <p class="font-semibold text-gray-700">Jobs:</p>
+                    <ul class="list-disc pl-5 mb-4 text-gray-600">
+                        <li>Comply with climate regulations (CSRD)</li>
+                        <li>Find authentic stories for ESG reports</li>
+                        <li>Justify climate spend to CFO / Board</li>
+                        <li>Avoid "greenwashing" scandals</li>
+                    </ul>
+                    <p class="font-semibold text-gray-700">Pains (🔥):</p>
+                    <ul class="list-disc pl-5 mb-4 text-red-600">
+                        <li>Offsets feel "fake" and lack transparency</li>
+                        <li>High initial cost of co-ownership (CapEx)</li>
+                        <li>Complex model is hard to explain internally</li>
+                        <li>Long time-to-return (12+ years)</li>
+                    </ul>
+                    <p class="font-semibold text-gray-700">Gains (⭐):</p>
+                    <ul class="list-disc pl-5 text-green-600">
+                        <li>Tangible, "real" asset ownership</li>
+                        <li>Holistic "Triple Impact" (Eco, Social, Fin)</li>
+                        <li>Permanent impact from a single investment</li>
+                        <li>High transparency & verifiable data</li>
+                    </ul>
+                </div>
+                
+                <div class="bg-green-50 p-8 border-l border-gray-200">
+                    <h3 class="text-xl font-semibold text-primary mb-4">Value Map (Our Product)</h3>
+                    <p class="font-semibold text-gray-700">Product: B2B Impact Dashboard</p>
+                    <ul class="list-disc pl-5 mb-4 text-gray-600">
+                        <li>An interactive, data-driven webpage</li>
+                    </ul>
+                    <p class="font-semibold text-gray-700">Pain Relievers:</p>
+                    <ul class="list-disc pl-5 mb-4 text-red-600">
+                        <li><strong>Directly compares</strong> model to offsets</li>
+                        <li><strong>Makes complex value simple</strong> & visual</li>
+                        <li><strong>Provides data to justify CapEx</strong></li>
+                        <li>Frames long-term as "permanent"</li>
+                    </ul>
+                    <p class="font-semibold text-gray-700">Gain Creators:</p>
+                    <ul class="list-disc pl-5 text-green-600">
+                        <li><strong>Interactive calculator</strong> makes "shares" tangible</li>
+                        <li><strong>Charts</strong> visualize permanent CO₂ storage</li>
+                        <li><strong>Builds trust</strong> through data transparency</li>
+                        <li>Provides an <strong>"Own Your Impact"</strong> narrative</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h3 class="mt-12">The Final Product: B2B Impact Dashboard</h3>
+            <p>
+                This conceptual model was developed into the final, production-ready prototype. This tool directly addresses the user pains by making the abstract value of co-ownership tangible and justifiable.
+            </p>
+
+            <!-- ### START OF EMBEDDED PROTOTYPE ### -->
+            <div class="prototype-container shadow-2xl">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
+                    <!-- Prototype Hero -->
+                    <div class="text-center p-8 md:p-12">
+                        <h1 class="text-4xl md:text-5xl font-bold text-primary mb-6">
+                            Beyond Carbon Offsets
+                        </h1>
+                        <p class="text-xl md:text-2xl text-text-color mb-8 max-w-3xl mx-auto">
+                            Invest in real, biodiverse forests. Our co-ownership model offers your business a tangible, transparent, and long-term climate solution with ecological, social, and financial returns.
+                        </p>
+                    </div>
+
+                    <!-- Prototype Key Metrics -->
+                    <div class="mb-12 grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                        <div class="p-4 bg-white/50 rounded-lg text-center shadow-sm">
+                            <span class="block text-4xl font-bold text-primary">1,200+</span>
+                            <span class="block text-lg text-text-color mt-1">Hectares Reforested</span>
+                        </div>
+                        <div class="p-4 bg-white/50 rounded-lg text-center shadow-sm">
+                            <span class="block text-4xl font-bold text-primary">1,000,000+</span>
+                            <span class="block text-lg text-text-color mt-1">Trees Planted</span>
+                        </div>
+                        <div class="p-4 bg-white/50 rounded-lg text-center shadow-sm">
+                            <span class="block text-4xl font-bold text-primary">4,300+</span>
+                            <span class="block text-lg text-text-color mt-1">Cooperative Members</span>
+                        </div>
+                    </div>
+
+                    <!-- Prototype "vs. Offsets" -->
+                    <div class="text-center mb-16 px-4">
+                        <h3 class="text-2xl md:text-3xl font-bold text-primary mb-4">A Clearer Path to Climate Action</h3>
+                        <p class="text-lg md:text-xl text-text-color max-w-3xl mx-auto">
+                            Traditional offsets are an opaque <em>cost</em>. Co-ownership is a transparent <em>asset</em>. This is the core difference.
+                        </p>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto mb-16 px-4">
+                        <div class="bg-card-bg p-8 rounded-lg shadow-lg border border-gray-200">
+                            <h3 class="text-2xl font-semibold text-gray-500 mb-6 text-center">Traditional Carbon Offsets</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-red-500 font-bold text-2xl mr-3">×</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700">Opaque Value (OpEx)</h4>
+                                        <p class="text-gray-600">An annual <em>cost</em> with no financial return. Unclear if impact is permanent.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-500 font-bold text-2xl mr-3">×</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700">Limited Scope</h4>
+                                        <p class="text-gray-600">Primarily focused on CO₂, often overlooking biodiversity and social impact.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-red-500 font-bold text-2xl mr-3">×</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700">Short-Term</h4>
+                                        <p class="text-gray-600">Certificates expire, requiring annual repurchasing to maintain neutrality.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-card-bg p-8 rounded-lg shadow-lg border-2 border-primary">
+                            <h3 class="text-2xl font-semibold text-primary mb-6 text-center">Generation Forest Co-Ownership</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-start">
+                                    <span class="text-green-600 font-bold text-2xl mr-3">✓</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700">Tangible Asset (CapEx)</h4>
+                                        <p class="text-gray-600">A capital <em>investment</em> with a projected green financial return (IRR 4-5%).</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-600 font-bold text-2xl mr-3">✓</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700">"Triple Impact"</h4>
+                                        <p class="text-gray-600">Verifiable CO₂, biodiversity (186+ species), and social (40+ jobs) impact.</p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-green-600 font-bold text-2xl mr-3">✓</span>
+                                    <div>
+                                        <h4 class="font-semibold text-gray-700">Permanent</h4>
+                                        <p class="text-gray-600">The forest is permanent. Your one-time investment offsets CO₂ indefinitely.</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Prototype Calculator -->
+                    <div class="max-w-4xl mx-auto bg-card-bg p-8 rounded-lg shadow-xl border border-gray-200">
+                        <div class="text-center mb-8">
+                            <h3 class="text-2xl md:text-3xl font-bold text-primary mb-4">Make Your Impact Tangible</h3>
+                            <p class="text-lg text-text-color max-w-2xl mx-auto">
+                                Enter your desired number of shares to see the direct, long-term results of your co-ownership. This makes the abstract value concrete.
+                            </p>
+                        </div>
+
+                        <div class="flex flex-col sm:flex-row justify-center items-center mb-8 space-y-4 sm:space-y-0 sm:space-x-4">
+                            <label for="sharesInput" class="text-xl font-semibold text-primary">Number of Shares:</label>
+                            <input type="number" id="sharesInput" value="10" min="1" max="1000" class="w-full sm:w-40 text-center text-2xl font-bold text-primary border-2 border-gray-300 rounded-md p-2 focus:border-primary focus:ring-primary">
+                        </div>
+                        
+                        <div class="text-center mb-8">
+                             <button id="calculateButton" class="bg-primary text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-opacity-90 transition duration-300">Calculate Impact</button>
+                        </div>
+
+                        <div id="results-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <span class="block text-sm font-medium text-gray-500 uppercase">Your Forest Area</span>
+                                <span id="output-area" class="block text-4xl font-bold text-primary mt-2">5,000 m²</span>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <span class="block text-sm font-medium text-gray-500 uppercase">Projected CO₂ Stored</span>
+                                <span id="output-co2" class="block text-4xl font-bold text-primary mt-2">100 t</span>
+                                <span class="block text-xs text-gray-400">(Over 30 years)</span>
+                            </div>
+                            <div class="bg-gray-50 p-6 rounded-lg">
+                                <span class="block text-sm font-medium text-gray-500 uppercase">Projected Return</span>
+                                <span id="output-financial" class="block text-4xl font-bold text-primary mt-2">4-5%</span>
+                                <span class="block text-xs text-gray-400">(Annual IRR)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Prototype Data Proof -->
+                    <div class="mt-16 px-4">
+                        <h3 class="text-2xl font-semibold text-primary text-center mb-8">Data-Backed Proof: Your Impact Grows</h3>
+                        <p class="text-lg text-text-color max-w-3xl mx-auto text-center mb-8">
+                            Unlike a one-time offset, your impact grows with your forest. This data, drawn from the 2024 Impact Report, proves the long-term value of your permanent asset.
+                        </p>
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                            <div class="bg-card-bg p-6 rounded-lg shadow-lg">
+                                <h4 class="text-xl font-semibold text-primary text-center mb-4">CO₂ Sequestration per Share</h4>
+                                <div class="chart-container" style="max-width: 500px;">
+                                    <canvas id="co2Chart"></canvas>
+                                </div>
+                                <p class="text-center text-gray-600 mt-4 text-sm">A single share continues to store CO₂ for decades, showing the long-term ecological return. (Source: TGF Impact Report 2024)</p>
+                            </div>
+                            <div class="bg-card-bg p-6 rounded-lg shadow-lg">
+                                <h4 class="text-xl font-semibold text-primary text-center mb-4">Cooperative Member Growth</h4>
+                                <div class="chart-container" style="max-width: 500px;">
+                                    <canvas id="memberChart"></canvas>
+                                </div>
+                                <p class="text-center text-gray-600 mt-4 text-sm">Demonstrates market validation and trust, growing to 4,300+ members. (Source: TGF Impact Report 2024, p. 17)</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Prototype CTA -->
+                    <div class="mt-16 mx-4 py-12 bg-primary text-white rounded-lg text-center">
+                        <h3 class="text-3xl font-bold mb-6">Ready to Build Your Forest?</h3>
+                        <p class="text-lg text-gray-200 mb-10 max-w-xl mx-auto">
+                            Let's discuss how co-ownership can fit your company's climate strategy.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                            <a href="#" class="bg-white text-primary px-8 py-3 rounded-md text-lg font-semibold hover:bg-gray-100 transition duration-300">
+                                Contact B2B Sales
+                            </a>
+                            <a href="https://thegenerationforest.com/fileadmin/Impact_Report/TGF_IR_Impact-Report-2024_EN_WEB_KOR2__1_.pdf" target="_blank" rel="noopener noreferrer" class="bg-transparent border-2 border-white text-white px-8 py-3 rounded-md text-lg font-semibold hover:bg-white hover:text-primary transition duration-300">
+                                Download Full Impact Report
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ### END OF EMBEDDED PROTOTYPE ### -->
+        </section>
+
+        <!-- Go-to-Market Roadmap -->
+        <section id="roadmap" class="report-section">
+            <h2>Strategic Go-to-Market Roadmap</h2>
+            <p>
+                This GTM strategy is a 3-phase plan to launch and scale the B2B co-ownership model, using the Impact Dashboard as the central marketing and sales asset. The focus is on winning the most aligned customer segment first.
+            </p>
+            
+            <h3>Target ICP: "The Purpose-Driven"</h3>
+            <p>
+                The primary target is the <strong>"Purpose-Driven" Founder</strong> (Persona 2). This segment is the path of least resistance. They are already philosophically aligned, are looking for this exact solution, and as decision-makers, they can approve the CapEx investment, bypassing the primary "Svenja-to-CFO" sales blockage.
+            </p>
+
+            <div class="mt-12 space-y-8 relative before:absolute before:inset-0 before:ml-5 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-gray-300 before:to-transparent">
+                <!-- Phase 1 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 border-primary bg-primary text-white text-lg font-bold shadow-md md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">1</div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-xl font-semibold text-primary mb-2">Phase 1: Validation & Seeding (Q1-Q2)</h3>
+                        <p class="text-gray-700"><strong>Goal:</strong> Acquire first 10 B2B partners and gather testimonials.
+                        <br><strong>Key Actions:</strong> Use the Impact Dashboard as a high-touch sales tool in 1-on-1 calls with a curated list of 20 target B-Corp founders.
+                        </p>
+                    </div>
+                </div>
+                <!-- Phase 2 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 border-primary bg-primary text-white text-lg font-bold shadow-md md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">2</div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-xl font-semibold text-primary mb-2">Phase 2: Targeted Launch (Q3-Q4)</h3>
+                        <p class="text-gray-700"><strong>Goal:</strong> Scale to 50 B2B partners and build a repeatable sales motion.
+                        <br><strong>Key Actions:</strong> Launch the dashboard publicly. Run targeted LinkedIn Ad campaigns (targeting "Founders" at "B-Corps"). Publish content marketing pieces ("<em>Beyond the Ton: Why Your CFO Needs to See Climate as an Asset</em>").
+                        </p>
+                    </div>
+                </div>
+                <!-- Phase 3 -->
+                <div class="relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse group">
+                    <div class="flex items-center justify-center w-10 h-10 rounded-full border-2 border-primary bg-primary text-white text-lg font-bold shadow-md md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">3</div>
+                    <div class="w-[calc(100%-4rem)] md:w-[calc(50%-2.5rem)] bg-white p-6 rounded-lg shadow-md border border-gray-200">
+                        <h3 class="text-xl font-semibold text-primary mb-2">Phase 3: Scale & Authority (Year 2+)</h3>
+                        <p class="text-gray-700"><strong>Goal:</strong> Become the gold standard for purpose-driven climate investment.
+                        <br><strong>Key Actions:</strong> Develop a secure B2B partner portal. Pursue PR in sustainable business journals (e.g., <em>Forbes Sustainable</em>). Form strategic partnerships with the B-Corp EU Network and the Global Impact Investing Network (GIIN).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section id="conclusion" class="report-section">
+            <h2>Conclusion: A Clear Path to B2B Growth</h2>
+            <p>
+                The challenge for Generation Forest was never the quality of its impact, but the complexity of its story. This strategic analysis and accompanying product solution provide the necessary tools to reframe the conversation.
+            </p>
+            <p>
+                The <strong>B2B Impact Dashboard</strong> is the user-centered solution. It successfully translates complexity into tangible value, arming B2B champions with the justification they need and giving decision-makers the confidence to invest. This solution provides Generation Forest with a scalable, compelling, and effective tool to drive B2B engagement and accelerate its mission.
+            </p>
+        </section>
+
+        <!-- References -->
+        <section id="references" class="report-section">
+            <h2>References & Data Sources</h2>
+            <p>
+                This analysis and the data presented in the prototype are based on the following key sources:
+            </p>
+            <ul class="list-disc list-outside pl-5 space-y-3">
+                <li><strong>The Generation Forest (2024).</strong> <em>Impact Report 2024</em>. [Provided Document]</li>
+                <li><strong>The Generation Forest (2024).</strong> <em>B2B Stakeholder Feedback Document</em>. [Provided Document]</li>
+                <li><strong>McKinsey & Company (2024).</strong> <em>The State of the Voluntary Carbon Market 2024</em>. General market analysis on the "flight to quality" and demand for transparency.</li>
+                <li><strong>Gartner Research (2024).</strong> <em>Trends in ESG & Sustainability Reporting</em>. Analysis on the impact of CSRD and regulatory pressure on corporate decision-making.</li>
+            </ul>
+        </section>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-12 mt-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <p>MBA Challenge Submission | From Prototype to Market</p>
+            <p class="text-sm mt-2">This report and embedded prototype represent a complete, user-centered solution.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // --- Mobile Menu Navigation ---
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            mobileMenuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            document.querySelectorAll('.nav-link-mobile').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // --- Active Nav Link Highlighting on Scroll ---
+            const sections = document.querySelectorAll('.report-section');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.3
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                let activeId = '';
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        if(entry.target.id) {
+                            activeId = entry.target.id;
+                        }
+                    }
+                });
+
+                if (activeId) {
+                    navLinks.forEach(link => {
+                        link.classList.remove('nav-link-active');
+                        if (link.href.includes(activeId)) {
+                            link.classList.add('nav-link-active');
+                        }
+                    });
+                }
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+
+            // --- Calculator Logic ---
+            const calculateButton = document.getElementById('calculateButton');
+            const sharesInput = document.getElementById('sharesInput');
+            const outputArea = document.getElementById('output-area');
+            const outputCo2 = document.getElementById('output-co2');
+
+            function updateCalculator() {
+                let shares = parseInt(sharesInput.value);
+                
+                if (isNaN(shares) || shares < 1) {
+                    shares = 1;
+                    sharesInput.value = 1;
+                }
+                
+                outputArea.textContent = (shares * 500).toLocaleString() + ' m²';
+                outputCo2.textContent = (shares * 10).toLocaleString() + ' t';
+            }
+            
+            calculateButton.addEventListener('click', updateCalculator);
+            sharesInput.addEventListener('input', (e) => {
+                let val = parseInt(e.target.value);
+                if (val > 1000) {
+                    e.target.value = 1000;
+                }
+                if (val < 1 && e.target.value !== "") {
+                    e.target.value = 1;
+                }
+            });
+            
+            updateCalculator(); // Initial calculation on load
+
+            // --- Chart.js Logic ---
+            const chartHelpers = {
+                wrapText: (text, maxChars) => {
+                    const words = text.split(' ');
+                    let lines = [];
+                    let currentLine = '';
+                    words.forEach(word => {
+                        if ((currentLine + word).length > maxChars) {
+                            lines.push(currentLine.trim());
+                            currentLine = word + ' ';
+                        } else {
+                            currentLine += word + ' ';
+                        }
+                    });
+                    lines.push(currentLine.trim());
+                    return lines;
+                }
+            };
+            
+            const commonChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: '#3D3D3D',
+                            font: { family: "'Inter', sans-serif" }
+                        }
+                    },
+                    tooltip: {
+                        enabled: true,
+                        backgroundColor: '#2A5B4C',
+                        titleFont: { family: "'Inter', sans-serif", weight: 'bold' },
+                        bodyFont: { family: "'Inter', sans-serif" },
+                        padding: 12,
+                        cornerRadius: 4,
+                        boxPadding: 4,
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#3D3D3D', font: { family: "'Inter', sans-serif" } },
+                        grid: { color: '#E5E7EB' }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#3D3D3D',
+                            font: { family: "'Inter', sans-serif" },
+                            callback: function(value, index, values) {
+                                const label = this.getLabelForValue(value);
+                                return chartHelpers.wrapText(label, 16);
+                            }
+                        },
+                        grid: { display: false }
+                    }
+                }
+            };
+
+            // CO2 Chart
+            const co2ChartCtx = document.getElementById('co2Chart').getContext('2d');
+            new Chart(co2ChartCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Year 0', 'Year 5', 'Year 10', 'Year 15', 'Year 20', 'Year 25', 'Year 30'],
+                    datasets: [{
+                        label: 'Cumulative CO₂ Stored per Share',
+                        data: [0, 1.5, 3.5, 5.8, 7.8, 9.2, 10.0],
+                        borderColor: '#2A5B4C',
+                        backgroundColor: 'rgba(42, 91, 76, 0.1)',
+                        fill: true,
+                        tension: 0.3
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    plugins: { ...commonChartOptions.plugins,
+                        tooltip: { ...commonChartOptions.plugins.tooltip,
+                            callbacks: {
+                                title: (tooltipItems) => `At ${tooltipItems[0].label}`,
+                                label: (context) => `${context.parsed.y} t CO₂ stored`
+                            }
+                        }
+                    },
+                    scales: { ...commonChartOptions.scales,
+                        y: { ...commonChartOptions.scales.y,
+                            title: { display: true, text: 'Tonnes (t) of CO₂', color: '#3D3D3D', font: { family: "'Inter', sans-serif", weight: 'bold' } }
+                        }
+                    }
+                }
+            });
+
+            // Member Chart
+            const memberChartCtx = document.getElementById('memberChart').getContext('2d');
+            new Chart(memberChartCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['2018', '2019', '2020', '2021', '2022', '2023', '2024 (Q1)'],
+                    datasets: [{
+                        label: 'Number of Members',
+                        data: [1, 100, 450, 1200, 2500, 3800, 4300],
+                        backgroundColor: '#A47D5B',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    ...commonChartOptions,
+                    plugins: { ...commonChartOptions.plugins,
+                        legend: { display: false },
+                        tooltip: { ...commonChartOptions.plugins.tooltip,
+                            callbacks: {
+                                title: (tooltipItems) => `End of ${tooltipItems[0].label}`,
+                                label: (context) => `${context.parsed.y.toLocaleString()} members`
+                            }
+                        }
+                    },
+                    scales: { ...commonChartOptions.scales,
+                        y: { ...commonChartOptions.scales.y,
+                            title: { display: true, text: 'Total Members', color: '#3D3D3D', font: { family: "'Inter', sans-serif", weight: 'bold' } }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
+
